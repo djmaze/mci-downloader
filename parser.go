@@ -65,9 +65,18 @@ func parseAlbums(data []byte) (int, Albums) {
 }
 
 func sanitizeFilename(name string) string {
-	return strings.ReplaceAll(
-		strings.ReplaceAll(
-			sanitize.Accents(name),
-			"?", ""),
-		",", " ")
+	replaceFunc := func(r rune) rune {
+		switch r {
+		case '/':
+			return '-'
+		case ',':
+			return ' '
+		case '?':
+			return -1
+		default:
+			return r
+		}
+	}
+
+	return strings.Map(replaceFunc, sanitize.Accents(name))
 }
