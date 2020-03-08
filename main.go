@@ -23,10 +23,13 @@ func main() {
 	}
 
 	wadm := WADM(ip, *port)
+	fmt.Printf("Downloading track metadata from %s port %d..", ip, *port)
 	xml := wadm.getTracks()
+	fmt.Printf("\nParsing response..")
 	num_tracks, albums := parseAlbums(xml)
 	count := 0
 
+	fmt.Printf("\nDownloading %d tracks\n", num_tracks)
 	for dir, tracks := range albums {
 		for i := 0; i < len(tracks); i++ {
 			count += 1
@@ -48,4 +51,5 @@ func main() {
 			}
 		}
 	}
+	fmt.Println("Done!")
 }
