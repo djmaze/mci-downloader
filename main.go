@@ -10,6 +10,7 @@ import (
 
 func main() {
 	port := flag.Uint("port", 8081, "port number")
+	dry_run := flag.Bool("dry-run", false, "dry run – do not write files")
 	flag.Parse()
 	args := flag.Args()
 	if len(args) == 0 {
@@ -33,23 +34,29 @@ func main() {
 	for dir, tracks := range albums {
 		for i := 0; i < len(tracks); i++ {
 			count += 1
-			fmt.Printf("[%d/%d] %s\n", count, num_tracks, tracks[i].OutputFile())
+			fmt.Printf("\n[%d/%d] %s", count, num_tracks, tracks[i].OutputFile())
 
-			err := os.Mkdir(dir, 0700)
-			if err != nil && !os.IsExist(err) {
-				log.Fatal(err)
-			}
-
-			err, data := wadm.downloadTrack(tracks[i].Url)
-			if err != nil {
-				log.Fatal(err)
+			if _, err := os.Stat(tracks[i].OutputFile()); err == nil {
+				fmt.Printf(" [already exists, skipping]")
 			} else {
-				err = ioutil.WriteFile(tracks[i].OutputFile(), data, 0400)
-				if err != nil {
-					log.Fatal(err)
+				if !*dry_run {
+					err := os.Mkdir(dir, 0700)
+					if err != nil && !os.IsExist(err) {
+						log.Fatal(err)
+					}
+
+					err, data := wadm.downloadTrack(tracks[i].Url)
+					if err != nil {
+						log.Fatal(err)
+					} else {
+						err = ioutil.WriteFile(tracks[i].OutputFile(), data, 0400)
+						if err != nil {
+							log.Fatal(err)
+						}
+					}
 				}
 			}
 		}
 	}
-	fmt.Println("Done!")
+	fmt.Println("\nDone!")
 }
