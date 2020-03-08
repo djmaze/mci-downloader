@@ -21,7 +21,7 @@ func WADM(ip string, port uint) WADMClient {
 func (wadm WADMClient) getTracks() []byte {
 	url := fmt.Sprintf("http://%s:%d", wadm.IP, wadm.Port)
 	payload := bytes.NewBuffer(
-		[]byte("<requestplayabledata><nodeid>385875968</nodeid><numelem>100000</numelem><fromindex>0</fromindex></requestplayabledata>\r\n"),
+		[]byte("<requestplayabledata><nodeid>385875968</nodeid><numelem>0</numelem><fromindex>0</fromindex></requestplayabledata>\r\n"),
 	)
 	resp, err := http.Post(url, "text/xml", payload)
 	if err != nil {
