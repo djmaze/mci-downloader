@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"path/filepath"
+	"strings"
 
 	"github.com/kennygrant/sanitize"
 )
@@ -25,14 +26,14 @@ type Track struct {
 type Albums map[string][]Track
 
 func (track Track) OutputDir() string {
-	return sanitize.Accents(
+	return sanitizeFilename(
 		fmt.Sprintf("%s - %s",
 			filepath.FromSlash(track.Artist),
 			filepath.FromSlash(track.Album)))
 }
 
 func (track Track) OutputFile() string {
-	var file = sanitize.Accents(
+	var file = sanitizeFilename(
 		fmt.Sprintf("%02d - %s.mp3",
 			track.Trackno,
 			filepath.FromSlash(track.Name)))
@@ -57,4 +58,9 @@ func parseAlbums(data []byte) (int, Albums) {
 	}
 
 	return num_tracks, albums
+}
+
+func sanitizeFilename(name string) string {
+	return strings.ReplaceAll(
+		sanitize.Accents(name), "?", "")
 }
