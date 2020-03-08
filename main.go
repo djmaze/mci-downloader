@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 func main() {
@@ -30,6 +31,11 @@ func main() {
 	num_tracks, albums := parseAlbums(xml)
 	count := 0
 
+	cwd, err := filepath.Abs(".")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	fmt.Printf("\nDownloading %d tracks\n", num_tracks)
 	for dir, tracks := range albums {
 		for i := 0; i < len(tracks); i++ {
@@ -49,7 +55,8 @@ func main() {
 					if err != nil {
 						log.Fatal(err)
 					} else {
-						err = ioutil.WriteFile(tracks[i].OutputFile(), data, 0400)
+						output_file := filepath.Join(cwd, tracks[i].OutputFile())
+						err = ioutil.WriteFile(output_file, data, 0400)
 						if err != nil {
 							log.Fatal(err)
 						}
