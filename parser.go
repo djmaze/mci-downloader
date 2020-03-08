@@ -62,5 +62,8 @@ func parseAlbums(data []byte) (int, Albums) {
 
 func sanitizeFilename(name string) string {
 	return strings.ReplaceAll(
-		sanitize.Accents(name), "?", "")
+		strings.ReplaceAll(
+			sanitize.Accents(name),
+			"?", ""),
+		",", " ")
 }
