@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/xml"
 	"fmt"
+	"log"
 	"path/filepath"
 	"strings"
 
@@ -43,7 +44,10 @@ func (track Track) OutputFile() string {
 func parseAlbums(data []byte) (int, Albums) {
 	var tracks Tracks
 
-	xml.Unmarshal(data, &tracks)
+	err := xml.Unmarshal(data, &tracks)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	albums := make(Albums)
 	num_tracks := len(tracks.Tracks)
