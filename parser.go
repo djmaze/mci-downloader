@@ -19,7 +19,7 @@ type Track struct {
 	XMLName xml.Name `xml:"contentdata"`
 	Artist  string   `xml:"artist"`
 	Album   string   `xml:"album"`
-	Trackno int8     `xml:"trackno"`
+	Trackno uint16   `xml:"trackno"`
 	Name    string   `xml:"name"`
 	Url     string   `xml:"url"`
 }
