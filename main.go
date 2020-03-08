@@ -15,7 +15,8 @@ func main() {
 	flag.Parse()
 	args := flag.Args()
 	if len(args) == 0 {
-		fmt.Println("Usage: mci-downloader [--port <PORT>] <IP or hostname>")
+		fmt.Println("Usage: mci-downloader [--dry-run] [--port <PORT>] <IP or hostname>")
+		fmt.Println("\nFiles will be written to sub directories of the current directory.")
 		os.Exit(1)
 	}
 	ip := args[0]
