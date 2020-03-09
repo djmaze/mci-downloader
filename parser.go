@@ -28,16 +28,12 @@ type Albums map[string][]Track
 
 func (track Track) OutputDir() string {
 	return sanitizeFilename(
-		fmt.Sprintf("%s - %s",
-			filepath.FromSlash(track.Artist),
-			filepath.FromSlash(track.Album)))
+		fmt.Sprintf("%s - %s", track.Artist, track.Album))
 }
 
 func (track Track) OutputFile() string {
 	var file = sanitizeFilename(
-		fmt.Sprintf("%02d - %s.mp3",
-			track.Trackno,
-			filepath.FromSlash(track.Name)))
+		fmt.Sprintf("%02d - %s.mp3", track.Trackno, track.Name))
 	return filepath.Join(track.OutputDir(), file)
 }
 
