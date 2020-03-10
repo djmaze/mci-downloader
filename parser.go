@@ -69,7 +69,7 @@ func sanitizeFilename(name string) string {
 			return ' '
 		case ':':
 			return '.'
-		case '?', '!', '\'':
+		case '?', '!', '\'', '*':
 			return -1
 		default:
 			return r
