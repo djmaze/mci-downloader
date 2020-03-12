@@ -65,7 +65,7 @@ func sanitizeFilename(name string) string {
 		switch r {
 		case '/':
 			return '-'
-		case ',':
+		case ',', '_':
 			return ' '
 		case ':':
 			return '.'
