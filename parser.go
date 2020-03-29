@@ -33,7 +33,7 @@ func (track Track) OutputDir() string {
 
 func (track Track) OutputFile() string {
 	var file = sanitizeFilename(
-		fmt.Sprintf("%02d - %s.mp3", track.Trackno, track.Name))
+		fmt.Sprintf("%s - %s - %02d - %s.mp3", track.Artist, track.Album, track.Trackno, track.Name))
 	return filepath.Join(track.OutputDir(), file)
 }
 
